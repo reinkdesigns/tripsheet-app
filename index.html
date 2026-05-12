@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Tripsheet</title>
+  </head>
+  <body>
+    <br />
+    <div class="formGrid">
+      <input
+        type="text"
+        inputmode="numeric"
+        id="tripNumber"
+        placeholder="Trip Number"
+        maxlength="7"
+      />
+
+      <input
+        type="text"
+        id="trailerNumber"
+        placeholder="Trailer Number"
+        maxlength="6"
+      />
+
+      <input type="text" id="cusName" placeholder="Customer Name" />
+
+      <input type="text" id="orginState" placeholder="Orgin City/State" />
+
+      <input
+        type="text"
+        inputmode="numeric"
+        id="lumperFee"
+        placeholder="Lumper Fee"
+      />
+      <input type="text" id="destState" placeholder="Destination City/State" />
+
+      <input type="date" inputmode="numeric" id="todayDate" />
+      <label>Date</label>
+      <input type="date" inputmode="numeric" id="deliveryDate" />
+      <label>Delivery Date</label>
+    </div>
+    <div class="buttonRow">
+      <button id="downloadBtn">Generate Tripsheet</button>
+      <button id="settingsBtn">Settings</button>
+      <button id="notesBtn">Notes</button>
+    </div>
+
+    <div
+      id="settingsModal"
+      class="modalWindow"
+      style="
+        display: none;
+        position: fixed;
+        top: 50px;
+        left: 50px;
+        background: white;
+        padding: 20px;
+        border: 1px solid black;
+      "
+    >
+      <label>
+        Tractor Number:<br />
+        <input
+          type="text"
+          id="truckNumber"
+          class="modalWindow"
+          placeholder="Tractor Number"
+          maxlength="6"
+        />
+        <br />
+        Driver Name:<br />
+        <input type="text" id="dOneName" placeholder="Driver Name" />
+        <br />
+        Driver Code:<br />
+        <input type="text" id="dOneCode" placeholder="Driver Code" />
+        <br />
+        Driver 2 Name:<br />
+        <input type="text" id="dTwoName" placeholder="Driver 2 Name" />
+        <br />
+        Driver 2 Code:<br />
+        <input type="text" id="dTwoCode" placeholder="Driver 2 Code" />
+        <br />
+      </label>
+      <div class="ButtonRow">
+      <button id="saveTruckBtn" class="saveBtn">Save</button>
+      <button id="closeSettingsBtn">Close</button>
+      </div>
+    </div>
+
+    <div
+      id="notesModal"
+      class="modalWindow"
+      style="
+        display: none;
+        position: fixed;
+        top: 50px;
+        left: 200px;
+        background: white;
+        padding: 20px;
+        width: 25vw;
+        border: 1px solid black;
+      "
+    >
+      <label>
+        Pick-up Time:<br />
+        <input
+          type="text"
+          id="pickUpTimeNotes"
+          style="width: 25vw"
+          placeholder="Pick-up time"
+        />
+        <br />
+        Pick-up Notes:<br />
+        <input
+          type="text"
+          id="pickUpNotes"
+          style="width: 25vw"
+          placeholder="Pick-up Notes"
+        />
+        <br />
+        Drop-off Time:<br />
+        <input
+          type="text"
+          id="dropOffTimeNotes"
+          style="width: 25vw"
+          placeholder="Drop-off time"
+        />
+        <br />
+        Drop-off Notes:<br />
+        <input
+          type="text"
+          id="dropOffNotes"
+          style="width: 25vw"
+          placeholder="Drop-off Notes"
+        />
+        <br />
+      </label>
+      <div class="ButtonRow">
+      <button id="saveNotesBtn" class="saveBtn">Save</button>
+      <button id="closeNotesBtn">Close</button>
+      <button id="clearNotesBtn">Clear</button>
+      </div>
+    </div>
+
+    <br /><br />
+    <a id="previewLink">
+      <img id="previewImg" style="max-width: 100%; margin-top: 20px" />
+    </a>
+    <!-- <img
+      id="previewImg"
+      style="max-width: 100%; margin-top: 20px; touch-action: manipulation"
+    /> -->
+
+    <canvas id="canvas" style="display: none"></canvas>
+    <!-- Interactive preview image -->
+    <script src="app.js"></script>
+  </body>
+</html>
