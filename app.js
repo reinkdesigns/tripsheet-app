@@ -29,16 +29,11 @@ let textX = 0;
 document.addEventListener("deviceready", function () {
   console.log("Running in Cordova app ✔");
   checkForUpdate();
-  window.IS_CORDOVA = true;
   apkDownloadBtn.style.display = "none"
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  
-  const isCordova = typeof cordova !== "undefined";
   document.getElementById("versionLabel").textContent = "v" + CURRENT_VERSION;
-
-
 });
 
 
