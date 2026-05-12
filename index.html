@@ -54,7 +54,7 @@
       style="
         display: none;
         position: fixed;
-        top: 50px;
+        top: 35px;
         left: 50px;
         background: white;
         padding: 20px;
@@ -85,8 +85,8 @@
         <br />
       </label>
       <div class="ButtonRow">
-      <button id="saveTruckBtn" class="saveBtn">Save</button>
-      <button id="closeSettingsBtn">Close</button>
+        <button id="saveTruckBtn" class="saveBtn">Save</button>
+        <button id="closeSettingsBtn">Close</button>
       </div>
     </div>
 
@@ -96,52 +96,44 @@
       style="
         display: none;
         position: fixed;
-        top: 50px;
-        left: 200px;
+        top: 35px;
+        left: 30px;
         background: white;
         padding: 20px;
-        width: 25vw;
+        width: 300px;
         border: 1px solid black;
       "
     >
-      <label>
-        Pick-up Time:<br />
-        <input
-          type="text"
-          id="pickUpTimeNotes"
-          style="width: 25vw"
-          placeholder="Pick-up time"
-        />
-        <br />
-        Pick-up Notes:<br />
-        <input
-          type="text"
-          id="pickUpNotes"
-          style="width: 25vw"
-          placeholder="Pick-up Notes"
-        />
-        <br />
-        Drop-off Time:<br />
-        <input
-          type="text"
-          id="dropOffTimeNotes"
-          style="width: 25vw"
-          placeholder="Drop-off time"
-        />
-        <br />
-        Drop-off Notes:<br />
-        <input
-          type="text"
-          id="dropOffNotes"
-          style="width: 25vw"
-          placeholder="Drop-off Notes"
-        />
-        <br />
-      </label>
-      <div class="ButtonRow">
-      <button id="saveNotesBtn" class="saveBtn">Save</button>
-      <button id="closeNotesBtn">Close</button>
-      <button id="clearNotesBtn">Clear</button>
+
+        <label>
+          Pick-up Time:<br />
+          <input type="text" id="pickUpTimeNotes" class="inputNotes" placeholder="Pick-up time" />
+          <br />
+          Pick-up Notes:<br />
+          <input type="text" id="pickUpNotes" class="inputNotes" placeholder="Pick-up Notes" />
+          <br />
+          Drop-off Time:<br />
+          <input
+            type="text"
+            id="dropOffTimeNotes"
+            class="inputNotes"
+            placeholder="Drop-off time"
+          />
+          <br />
+          Drop-off Notes:<br />
+          <input
+            type="text"
+            id="dropOffNotes"
+            class="inputNotes"
+            placeholder="Drop-off Notes"
+          />
+          <br />
+        </label>
+        <div class="ButtonRow">
+          <button id="saveNotesBtn" class="saveBtn">Save</button>
+          <button id="closeNotesBtn">Close</button>
+          <button id="clearNotesBtn">Clear</button>
+        
       </div>
     </div>
 

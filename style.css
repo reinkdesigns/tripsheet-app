@@ -72,3 +72,9 @@ button:active {
   border: 2vw solid black;
   border-radius: 8px; /* optional, matches your button style */
 }
+
+
+.inputNotes{
+ margin-bottom: 10px;
+ width: 100%;
+}
