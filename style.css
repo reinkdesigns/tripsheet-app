@@ -78,3 +78,14 @@ button:active {
  margin-bottom: 10px;
  width: 100%;
 }
+
+#versionLabel {
+  position: fixed;
+  top: 5px;
+  left: 8px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: Arial, sans-serif;
+  z-index: 9999;
+  pointer-events: none;
+}

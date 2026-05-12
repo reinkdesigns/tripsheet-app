@@ -1,5 +1,6 @@
-const CURRENT_VERSION = 2;
-const APK_URL = "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
+const CURRENT_VERSION = 1;
+const APK_URL =
+  "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -25,10 +26,16 @@ const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
 let textX = 0;
 
+document.addEventListener("deviceready", function () {
+  console.log("Running in Cordova app ✔");
+  checkForUpdate();
+  window.IS_CORDOVA = true;
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const btn = document.getElementById("apkDownloadBtn");
-
   const isCordova = typeof cordova !== "undefined";
+  document.getElementById("versionLabel").textContent = "v" + CURRENT_VERSION;
 
   if (!isCordova) {
     btn.style.display = "block"; // show in browser
@@ -37,10 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
   btn.addEventListener("click", function () {
     window.location.href = APK_URL;
   });
-});
-
-document.addEventListener("deviceready", function () {
-  checkForUpdate();
 });
 
 window.addEventListener("load", () => {
@@ -303,49 +306,15 @@ function checkForUpdate() {
     .then((res) => res.json())
     .then((data) => {
       console.log("Version file loaded:", data);
-      console.log("APK URL:", data.apkUrl);
-
       if (data.version > CURRENT_VERSION) {
+        alert("Update available: v" + data.version);
         downloadUpdate(data.apkUrl);
       }
     })
-    .catch((err) => console.log("Update check failed", err));
+    .catch((err) => {
+      console.error("Update check failed", err);});
 }
 
 function downloadUpdate(url) {
-  if (typeof cordova === "undefined") {
-    console.log("Not in Cordova app — skipping download");
-    return;
-  }
-
-  const filePath = cordova.file.externalDataDirectory + "update.apk";
-
-  fetch(url)
-    .then((res) => res.blob())
-    .then((blob) => {
-      window.resolveLocalFileSystemURL(
-        cordova.file.externalDataDirectory,
-        function (dirEntry) {
-          dirEntry.getFile(
-            "update.apk",
-            { create: true },
-            function (fileEntry) {
-              fileEntry.createWriter(function (writer) {
-                writer.onwriteend = function () {
-                  console.log("APK downloaded");
-
-                  cordova.plugins.fileOpener2.open(
-                    fileEntry.toURL(),
-                    "application/vnd.android.package-archive",
-                  );
-                };
-
-                writer.write(blob);
-              });
-            },
-          );
-        },
-      );
-    })
-    .catch((err) => console.log("Download failed", err));
+  cordova.InAppBrowser.open(url, "_system");
 }
