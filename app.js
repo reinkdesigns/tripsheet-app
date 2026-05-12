@@ -1,4 +1,4 @@
-const CURRENT_VERSION = 3;
+const CURRENT_VERSION = 4;
 const APK_URL = "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
 
 const canvas = document.getElementById("canvas");
