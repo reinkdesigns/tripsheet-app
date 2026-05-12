@@ -1,3 +1,6 @@
+const CURRENT_VERSION = 1;
+
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -21,6 +24,11 @@ const closeNotesBtn = document.getElementById("closeNotesBtn");
 const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
 let textX = 0;
+
+document.addEventListener("deviceready", function () {
+  checkForUpdate();
+});
+
 
 window.addEventListener("load", () => {
   const today = new Date().toISOString().split("T")[0];
@@ -311,4 +319,36 @@ function closeAllModals() {
   modals.forEach((modal) => {
     modal.style.display = "none";
   });
+}
+
+
+function checkForUpdate() {
+  fetch("https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/version.json")
+    .then(res => res.json())
+    .then(data => {
+      if (data.version > CURRENT_VERSION) {
+        downloadUpdate(data.apkUrl);
+      }
+    })
+    .catch(err => console.log("Update check failed", err));
+}
+
+function downloadUpdate(url) {
+  const filePath = cordova.file.externalDataDirectory + "update.apk";
+
+  const transfer = new FileTransfer();
+
+  transfer.download(
+    url,
+    filePath,
+    function (entry) {
+      cordova.plugins.fileOpener2.open(
+        entry.toURL(),
+        "application/vnd.android.package-archive"
+      );
+    },
+    function (error) {
+      console.log("Download failed", error);
+    }
+  );
 }
