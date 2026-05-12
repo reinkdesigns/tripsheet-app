@@ -24,17 +24,6 @@ const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
 let textX = 0;
 
-fetch(
-  "https://raw.githubusercontent.com/reinkdesigns/tripsheet-app/main/version.json",
-)
-  .then((res) => res.json())
-  .then((data) => {
-    console.log("Version file loaded:", data);
-    console.log("APK URL:", data.apkUrl);
-  })
-  .catch((err) => {
-    console.error("Failed to load version file:", err);
-  });
 
 document.addEventListener("deviceready", function () {
   checkForUpdate();
@@ -298,32 +287,49 @@ function closeAllModals() {
 }
 
 function checkForUpdate() {
-  fetch("https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/version.json")
-    .then((res) => res.json())
-    .then((data) => {
+  fetch("https://raw.githubusercontent.com/reinkdesigns/tripsheet-app/main/version.json")
+    .then(res => res.json())
+    .then(data => {
+      console.log("Version file loaded:", data);
+      console.log("APK URL:", data.apkUrl);
+
       if (data.version > CURRENT_VERSION) {
         downloadUpdate(data.apkUrl);
       }
     })
-    .catch((err) => console.log("Update check failed", err));
+    .catch(err => console.log("Update check failed", err));
 }
 
 function downloadUpdate(url) {
+  if (typeof cordova === "undefined") {
+    console.log("Not in Cordova app — skipping download");
+    return;
+  }
+
   const filePath = cordova.file.externalDataDirectory + "update.apk";
 
-  const transfer = new FileTransfer();
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+      window.resolveLocalFileSystemURL(
+        cordova.file.externalDataDirectory,
+        function (dirEntry) {
+          dirEntry.getFile("update.apk", { create: true }, function (fileEntry) {
+            fileEntry.createWriter(function (writer) {
+              writer.onwriteend = function () {
+                console.log("APK downloaded");
 
-  transfer.download(
-    url,
-    filePath,
-    function (entry) {
-      cordova.plugins.fileOpener2.open(
-        entry.toURL(),
-        "application/vnd.android.package-archive",
+                cordova.plugins.fileOpener2.open(
+                  fileEntry.toURL(),
+                  "application/vnd.android.package-archive"
+                );
+              };
+
+              writer.write(blob);
+            });
+          });
+        }
       );
-    },
-    function (error) {
-      console.log("Download failed", error);
-    },
-  );
+    })
+    .catch(err => console.log("Download failed", err));
 }
