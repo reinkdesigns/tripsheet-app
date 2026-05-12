@@ -1,4 +1,5 @@
 const CURRENT_VERSION = 2;
+const APK_URL = "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -23,6 +24,20 @@ const closeNotesBtn = document.getElementById("closeNotesBtn");
 const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
 let textX = 0;
+
+document.addEventListener("DOMContentLoaded", function () {
+  const btn = document.getElementById("apkDownloadBtn");
+
+  const isCordova = typeof cordova !== "undefined";
+
+  if (!isCordova) {
+    btn.style.display = "block"; // show in browser
+  }
+
+  btn.addEventListener("click", function () {
+    window.location.href = APK_URL;
+  });
+});
 
 document.addEventListener("deviceready", function () {
   checkForUpdate();
@@ -243,37 +258,35 @@ function redrawImageWithText(scale = 1) {
   ctx.restore(); // undo scaling
 }
 
+//generate tripsheet and show preview
 downloadBtn.addEventListener("click", function () {
-  // 1️⃣ Redraw canvas at full resolution
   redrawImageWithText(1);
-
-  // 2️⃣ Set preview image for long-press on mobile
   const previewImg = document.getElementById("previewImg");
   if (previewImg) {
     previewImg.src = canvas.toDataURL("image/png");
-    previewImg.style.display = "block"; // show the preview
+    previewImg.style.display = "block";
   }
 });
 
-//debug mouse posistion
-const previewImg = document.getElementById("previewImg");
+// //debug mouse posistion
+// const previewImg = document.getElementById("previewImg");
 
-previewImg.addEventListener("mousemove", function (event) {
-  const rect = previewImg.getBoundingClientRect();
+// previewImg.addEventListener("mousemove", function (event) {
+//   const rect = previewImg.getBoundingClientRect();
 
-  // Position on displayed image
-  const displayX = event.clientX - rect.left;
-  const displayY = event.clientY - rect.top;
+//   // Position on displayed image
+//   const displayX = event.clientX - rect.left;
+//   const displayY = event.clientY - rect.top;
 
-  // Convert to REAL canvas coordinates
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
+//   // Convert to REAL canvas coordinates
+//   const scaleX = canvas.width / rect.width;
+//   const scaleY = canvas.height / rect.height;
 
-  const realX = displayX * scaleX;
-  const realY = displayY * scaleY;
+//   const realX = displayX * scaleX;
+//   const realY = displayY * scaleY;
 
-  console.log(`Canvas X: ${Math.floor(realX)}, Canvas Y: ${Math.floor(realY)}`);
-});
+//   console.log(`Canvas X: ${Math.floor(realX)}, Canvas Y: ${Math.floor(realY)}`);
+// });
 
 function closeAllModals() {
   const modals = document.querySelectorAll(".modalWindow");
