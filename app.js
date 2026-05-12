@@ -1,4 +1,4 @@
-const CURRENT_VERSION = 1;
+const CURRENT_VERSION = 2;
 const APK_URL =
   "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
 
