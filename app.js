@@ -1,6 +1,5 @@
 const CURRENT_VERSION = 3;
-const APK_URL =
-  "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
+const APK_URL = "https://github.com/reinkdesigns/tripsheet-app/releases/download/v1/Tripsheet.apk";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -24,27 +23,25 @@ const notesModal = document.getElementById("notesModal");
 const closeNotesBtn = document.getElementById("closeNotesBtn");
 const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
+const apkDownloadBtn = document.getElementById("apkDownloadBtn");
 let textX = 0;
 
 document.addEventListener("deviceready", function () {
   console.log("Running in Cordova app ✔");
   checkForUpdate();
   window.IS_CORDOVA = true;
+  apkDownloadBtn.style.display = "none"
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const btn = document.getElementById("apkDownloadBtn");
+  
   const isCordova = typeof cordova !== "undefined";
   document.getElementById("versionLabel").textContent = "v" + CURRENT_VERSION;
 
-  if (!isCordova) {
-    btn.style.display = "block"; // show in browser
-  }
 
-  btn.addEventListener("click", function () {
-    window.location.href = APK_URL;
-  });
 });
+
+
 
 window.addEventListener("load", () => {
   const today = new Date().toISOString().split("T")[0];
@@ -55,6 +52,10 @@ window.addEventListener("load", () => {
   const today = new Date().toISOString().split("T")[0];
   document.getElementById("deliveryDate").value = today;
 });
+//download if not on apk
+apkDownloadBtn.addEventListener("click", function () {
+  window.location.href = APK_URL;
+ });
 
 // Open/close modal
 settingsBtn.addEventListener(
