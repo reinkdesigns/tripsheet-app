@@ -1,6 +1,5 @@
 const CURRENT_VERSION = 1;
 
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -25,10 +24,21 @@ const clearNotesBtn = document.getElementById("clearNotesBtn");
 const saveNotesBtn = document.getElementById("saveNotesBtn");
 let textX = 0;
 
+fetch(
+  "https://raw.githubusercontent.com/reinkdesigns/tripsheet-app/main/version.json",
+)
+  .then((res) => res.json())
+  .then((data) => {
+    console.log("Version file loaded:", data);
+    console.log("APK URL:", data.apkUrl);
+  })
+  .catch((err) => {
+    console.error("Failed to load version file:", err);
+  });
+
 document.addEventListener("deviceready", function () {
   checkForUpdate();
 });
-
 
 window.addEventListener("load", () => {
   const today = new Date().toISOString().split("T")[0];
@@ -43,25 +53,15 @@ window.addEventListener("load", () => {
 // Open/close modal
 settingsBtn.addEventListener(
   "click",
-  () => (
-    closeAllModals(),
-    settingsModal.style.display = "block"
-  ),
+  () => (closeAllModals(), (settingsModal.style.display = "block")),
 );
-closeSettingsBtn.addEventListener(
-  "click",
-  () => (closeAllModals()),
-);
+closeSettingsBtn.addEventListener("click", () => closeAllModals());
 
 notesBtn.addEventListener(
-  "click", () => (
-    closeAllModals(),
-    notesModal.style.display = "block"
-  ));
-closeNotesBtn.addEventListener(
   "click",
-  () => (closeAllModals()),
+  () => (closeAllModals(), (notesModal.style.display = "block")),
 );
+closeNotesBtn.addEventListener("click", () => closeAllModals());
 
 window.addEventListener("load", () => {
   const savedTruck = localStorage.getItem("truckNumber");
@@ -111,7 +111,6 @@ saveNotesBtn.addEventListener("click", () => {
   notesModal.style.display = "none";
 });
 
-
 clearNotesBtn.addEventListener("click", () => {
   pickUpTimeNotes.value = "";
   pickUpNotes.value = "";
@@ -122,7 +121,6 @@ clearNotesBtn.addEventListener("click", () => {
   localStorage.removeItem("dropOffTimeNotes");
   localStorage.removeItem("dropOffNotes");
 });
-
 
 const img = new Image();
 img.src = "BlankSheet.png"; // your image file
@@ -225,7 +223,6 @@ function redrawImageWithText(scale = 1) {
     ctx.fillText(`${month}/${day}/${year}`, 1058, 1278);
   }
 
-
   ctx.fillText(orginState.value, 231, 1435);
   ctx.fillText(destState.value, 1020, 1435);
   ctx.fillText(trailerNumber.value, 990, 1217);
@@ -233,27 +230,29 @@ function redrawImageWithText(scale = 1) {
   ctx.font = "25px Arial";
   ctx.fillText(lumperFee.value, 428, 1660);
   ctx.rotate(Math.PI / 2); // rotate 90 degrees
-  let noteHorz=-1600;
-  let noteVert=430;
-  const horzMove=35
+  let noteHorz = -1600;
+  let noteVert = 430;
+  const horzMove = 35;
 
-  if (pickUpTimeNotes.value.trim() !== ""){
+  if (pickUpTimeNotes.value.trim() !== "") {
     ctx.fillText("Pick-up Time: " + pickUpTimeNotes.value, noteVert, noteHorz);
-    noteHorz+=horzMove
+    noteHorz += horzMove;
   }
-    if (pickUpNotes.value.trim() !== ""){
+  if (pickUpNotes.value.trim() !== "") {
     ctx.fillText(pickUpNotes.value, noteVert, noteHorz);
-    noteHorz+=horzMove
-  }  
-  if (dropOffTimeNotes.value.trim() !== ""){
-    ctx.fillText("Drop-off Time: " + dropOffTimeNotes.value, noteVert, noteHorz);
-    noteHorz+=horzMove
-  }  
-  if (dropOffNotes.value.trim() !== ""){
+    noteHorz += horzMove;
+  }
+  if (dropOffTimeNotes.value.trim() !== "") {
+    ctx.fillText(
+      "Drop-off Time: " + dropOffTimeNotes.value,
+      noteVert,
+      noteHorz,
+    );
+    noteHorz += horzMove;
+  }
+  if (dropOffNotes.value.trim() !== "") {
     ctx.fillText(dropOffNotes.value, noteVert, noteHorz);
   }
-
-
 
   ctx.restore(); // undo scaling
 }
@@ -269,7 +268,6 @@ downloadBtn.addEventListener("click", function () {
     previewImg.style.display = "block"; // show the preview
   }
 });
-
 
 //debug mouse posistion
 const previewImg = document.getElementById("previewImg");
@@ -288,30 +286,8 @@ previewImg.addEventListener("mousemove", function (event) {
   const realX = displayX * scaleX;
   const realY = displayY * scaleY;
 
-  console.log(
-    `Canvas X: ${Math.floor(realX)}, Canvas Y: ${Math.floor(realY)}`
-  );
+  console.log(`Canvas X: ${Math.floor(realX)}, Canvas Y: ${Math.floor(realY)}`);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function closeAllModals() {
   const modals = document.querySelectorAll(".modalWindow");
@@ -321,16 +297,15 @@ function closeAllModals() {
   });
 }
 
-
 function checkForUpdate() {
   fetch("https://raw.githubusercontent.com/YOURNAME/YOURREPO/main/version.json")
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (data.version > CURRENT_VERSION) {
         downloadUpdate(data.apkUrl);
       }
     })
-    .catch(err => console.log("Update check failed", err));
+    .catch((err) => console.log("Update check failed", err));
 }
 
 function downloadUpdate(url) {
@@ -344,11 +319,11 @@ function downloadUpdate(url) {
     function (entry) {
       cordova.plugins.fileOpener2.open(
         entry.toURL(),
-        "application/vnd.android.package-archive"
+        "application/vnd.android.package-archive",
       );
     },
     function (error) {
       console.log("Download failed", error);
-    }
+    },
   );
 }
